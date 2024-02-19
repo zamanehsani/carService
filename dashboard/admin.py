@@ -16,3 +16,8 @@ class CustomersAdmin(admin.ModelAdmin):
     list_display = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
     list_display_links = ["name", 'phone', 'address']
 admin.site.register(models.Customers, CustomersAdmin)
+
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ['name', 'invoice_number', 'date', 'image', 'price', 'description', 'company', 'user']
+    list_display_links = ["name", 'invoice_number', 'date']
+admin.site.register(models.Invoice, InvoiceAdmin)
