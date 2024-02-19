@@ -1,3 +1,18 @@
 from django.contrib import admin
+from dashboard import models
 
-# Register your models here.
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['user', 'company', 'profile']
+    # list_filter = ['vote_date', 'last_update', 'your_vote']
+    list_display_links = ["user",'company', 'profile']
+admin.site.register(models.User_profile, UserAdmin)
+
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ['name', 'phone', 'address', 'logo','description']
+    list_display_links = ["name", 'phone', 'address']
+admin.site.register(models.Company, CompanyAdmin)
+
+class CustomersAdmin(admin.ModelAdmin):
+    list_display = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
+    list_display_links = ["name", 'phone', 'address']
+admin.site.register(models.Customers, CustomersAdmin)
