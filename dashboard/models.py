@@ -37,7 +37,7 @@ class Company(models.Model):
          verbose_name_plural = 'Companies'
 
     def __str__(self):
-        return self.name
+        return str(self.pk)
     
 class User_profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -65,4 +65,4 @@ class Customers(models.Model):
          verbose_name_plural = 'Customers'
 
     def __str__(self):
-        return self.name
+        return str(self.pk)
