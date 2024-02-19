@@ -3,7 +3,8 @@ from dashboard import models as dashboard_models
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from api import serializers as apiSerializers
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 
 
 class CustomPagination(PageNumberPagination):
@@ -13,7 +14,6 @@ class CustomPagination(PageNumberPagination):
     page_size = 10  # Number of items per page
     page_size_query_param = 'page_size'  # Allows the client to override the page size
     max_page_size = 100  # Maximum page size to prevent abuse
-
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -26,6 +26,19 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = dashboard_models.User.objects.all()
         return queryset
     
+class ContentTypeViewSet(viewsets.ModelViewSet):
+    queryset = ContentType.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.ContentTypeSerializer()
+    pagination_class = CustomPagination
+    
+
+class UserPermissionViewSet(viewsets.ModelViewSet):
+    queryset = Permission.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.UserPermissionSerializer
+    pagination_class = CustomPagination
+
 
 class UsersProfileViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.User_profile.objects.all()
@@ -42,4 +55,10 @@ class CustomersViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Customers.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.CustomersSerializer
+    pagination_class = CustomPagination
+
+class InvoicesViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.Invoice.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination

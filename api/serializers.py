@@ -1,7 +1,39 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 import os
 from dashboard import models as dashboard_models
+from django.contrib.contenttypes.models import ContentType
+
+
+
+class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ContentType
+        fields = "__all__"
+
+
+class UserPermissionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Permission
+        fields = "__all__"
+        depth = 1
+        extra_kwargs = {
+            'name': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        permission = Permission.objects.create(name=validated_data['name'])
+        return permission
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
+
+    def validate_name(self, value):
+        if Permission.objects.filter(name=value).exists():
+            raise serializers.ValidationError('Permission already exists')
+        return value
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -28,6 +60,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError('Email already exists')
         return value
+    
 
 class UsersProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -45,4 +78,10 @@ class CustomersSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = dashboard_models.Customers
         fields = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
+        depth = 1
+
+class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = dashboard_models.Invoice
+        fields = "__all__"
         depth = 1

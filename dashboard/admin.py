@@ -1,5 +1,10 @@
 from django.contrib import admin
 from dashboard import models
+from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
+
+admin.site.register(Permission)
+admin.site.register(ContentType)
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ['user', 'company', 'profile']
