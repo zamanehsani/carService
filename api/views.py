@@ -62,3 +62,34 @@ class InvoicesViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination
+
+
+class OilChangeViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.OilChange.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.OilChangeSerializer
+    pagination_class = CustomPagination
+
+class BatteryViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.Battery.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.BatterySerializer
+    pagination_class = CustomPagination
+
+class TintViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.Tint.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.TintSerializer
+    pagination_class = CustomPagination
+
+class TyreViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.Tyre.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.TyreSerializer
+    pagination_class = CustomPagination
+
+class OtherServiceViewSet(viewsets.ModelViewSet):
+    queryset = dashboard_models.OtherService.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.OtherServiceSerializer
+    pagination_class = CustomPagination

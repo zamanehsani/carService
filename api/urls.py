@@ -12,6 +12,11 @@ router.register('profile', apiViews.UsersProfileViewSet)
 router.register('companies', apiViews.CompaniesViewSet)
 router.register('customers', apiViews.CustomersViewSet)
 router.register('invoices', apiViews.InvoicesViewSet)
+router.register('oil-change', apiViews.OilChangeViewSet)
+router.register('battery', apiViews.BatteryViewSet)
+router.register('tint', apiViews.TintViewSet)
+router.register('tyre', apiViews.TyreViewSet)
+router.register('other-service', apiViews.OtherServiceViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

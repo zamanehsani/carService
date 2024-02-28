@@ -69,19 +69,59 @@ class UsersProfileSerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
 
 class CompaniesSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
         model = dashboard_models.Company
-        fields = ['name', 'description', 'logo', 'phone', 'address']
+        fields = "__all__"
         depth = 1
 
 class CustomersSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
         model = dashboard_models.Customers
-        fields = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
+        # fields = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
+        fields = "__all__"
         depth = 1
 
 class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
         model = dashboard_models.Invoice
+        fields = "__all__"
+        depth = 1
+
+
+class OilChangeSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.OilChange
+        fields = "__all__"
+        depth = 1
+
+class BatterySerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Battery
+        fields = "__all__"
+        depth = 1
+
+class TintSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Tint
+        fields = "__all__"
+        depth = 1
+
+class TyreSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Tyre
+        fields = "__all__"
+        depth = 1
+
+class OtherServiceSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.OtherService
         fields = "__all__"
         depth = 1
