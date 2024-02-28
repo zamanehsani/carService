@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'rest_framework',
     'api.apps.ApiConfig',
+    
 ]
 
 MIDDLEWARE = [
