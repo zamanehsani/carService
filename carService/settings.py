@@ -40,13 +40,15 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'rest_framework',
     'api.apps.ApiConfig',
-    
+
     # this is for translation of jwt
     'rest_framework_simplejwt',
+    'corsheaders',
     
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -100,7 +102,9 @@ REST_FRAMEWORK = {
 }
 
 
-
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # Example: React frontend URL
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
