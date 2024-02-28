@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'api.apps.ApiConfig',
     
+    # this is for translation of jwt
+    'rest_framework_simplejwt',
+    
 ]
 
 MIDDLEWARE = [
@@ -88,10 +91,16 @@ DATABASES = {
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
