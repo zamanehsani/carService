@@ -104,6 +104,11 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',  # Example: React frontend URL
+    'https://localhost:3000',  # Example: React frontend URL
+    'http://192.168.70.162:3000',
+    'https://192.168.70.162:3000',
+    'https://127.0.0.1:3000',
+    'http://127.0.0.1:3000',
 ]
 
 # Password validation
