@@ -5,6 +5,9 @@ from rest_framework import viewsets
 from api import serializers as apiSerializers
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import status
+from rest_framework.response import Response
+import json
 
 
 class CustomPagination(PageNumberPagination):
@@ -56,6 +59,81 @@ class CustomersViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.CustomersSerializer
     pagination_class = CustomPagination
+
+    def create(self, request, *args, **kwargs):
+        # must have the company_id, user_id 
+        customer_obj = dashboard_models.Customers.objects.create(
+            name=request.data.get('name'),
+            phone = request.data.get('phone'),
+            address = request.data.get('address'),
+            price = request.data.get('total'),
+            company_id = request.data.get('company_id'),
+            image = request.FILES.get('photo'),
+            description = request.data.get('note'),
+            user_id = request.data.get('user_id'),
+        )
+        customer_obj.save()
+
+        if request.data.get('oilChangeService'):
+            oil_obj = dashboard_models.OilChange.objects.create(
+                oil = request.data.get('oil'),
+                currentMilage = request.data.get('currentMilage'),
+                customer = customer_obj,
+                company_id = request.data.get('company_id'),
+                user_id = request.data.get('user_id'),
+                amount = request.data.get('oilAmount')
+            )
+            oil_obj.save()
+        
+        if request.data.get('batteryService'):
+            battery_obj = dashboard_models.Battery.objects.create(
+                name = request.data.get('batteryName'),
+                size = request.data.get('batterySize'),
+                amount = request.data.get('batteryAmount'),
+                warrenty = request.data.get('warranty'),
+                customer = customer_obj,
+                company_id = request.data.get('company_id'),
+                user_id = request.data.get('user_id')
+            )
+            battery_obj.save()
+
+        if request.data.get('tintService'):
+            tint_obj = dashboard_models.Tint.objects.create(
+                tintedWindows = request.data.get('tintedWindows'),
+                tintPercentage = request.data.get('tintPercentage'),
+                tintType = request.data.get('tintType'),
+                amount = request.data.get('tintAmount'),
+                customer = customer_obj,
+                company_id = request.data.get('company_id'),
+                user_id = request.data.get('user_id')
+            )
+            tint_obj.save()
+        
+        if request.data.get('tyreService'):
+            tyre_obj = dashboard_models.Tyre.objects.create(
+                tyreType = request.data.get('tyreType'),
+                tyreNumber = request.data.get('tyreNumber'),
+                quantity = request.data.get('tyreQuantity'),
+                amount = request.data.get('tyreAmount'),
+                customer = customer_obj,
+                company_id = request.data.get('company_id'),
+                user_id = request.data.get('user_id')
+            )
+            tyre_obj.save()
+
+        if request.data.get('otherService'):
+            obj_json = json.loads(request.data.get('otherItems'))
+            for item in obj_json:
+                other_obj = dashboard_models.OtherService.objects.create(
+                    name = item['name'],
+                    amount = item['amount'],
+                    customer = customer_obj,
+                    company_id = request.data.get('company_id'),
+                    user_id = request.data.get('user_id')
+                )
+                other_obj.save()
+        return Response(status=status.HTTP_201_CREATED)
+    
 
 class InvoicesViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Invoice.objects.all()

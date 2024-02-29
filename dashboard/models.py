@@ -64,10 +64,11 @@ class Customers(models.Model):
     phone = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image = models.ImageField(upload_to=customer_file_path, null=True, blank=True)
-    date = models.DateField(auto_now_add=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank= True)
+    user  = models.ForeignKey(User, null=True, blank = True, on_delete=models.SET_NULL)
 
     class Meta:
          verbose_name = 'Customer'
@@ -157,6 +158,7 @@ class Battery(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     size = models.PositiveSmallIntegerField( null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    warrenty= models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -188,19 +190,3 @@ class OtherService(models.Model):
     def __str__(self):
         return str(self.pk)
     
-
-# class Service(models.Model):
-#     name = models.CharField(max_length=200,null=True, blank=True)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-#     description = models.TextField(null=True, blank=True)
-#     date = models.DateField(auto_now_add=True)
-#     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-#     user    = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     class Meta:
-#         verbose_name = 'Service'
-#         verbose_name_plural = 'Services'
-#         ordering = ['-date']
-
-#     def __str__(self):
-#         return str(self.pk)
