@@ -171,3 +171,28 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.OtherServiceSerializer
     pagination_class = CustomPagination
+
+
+# a view to get the user based on the username passed via post request
+class GetUser(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = apiSerializers.UserSerializer(user,context={'request': request})
+        return Response(serializer.data)
+    
+# a view to get the company based on the username passed via post request
+class GetCompany(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        try:
+            company = dashboard_models.Company.objects.get(admin__username=username)
+        except dashboard_models.Company.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = apiSerializers.CompaniesSerializer(company,context={'request': request})
+        return Response(serializer.data)

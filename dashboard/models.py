@@ -38,7 +38,7 @@ class Company(models.Model):
     address = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     logo = models.ImageField(upload_to=company_logo_path, null=True, blank=True)
-
+    admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     class Meta:
          verbose_name = 'Company'
          verbose_name_plural = 'Companies'

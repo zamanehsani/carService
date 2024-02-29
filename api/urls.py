@@ -18,6 +18,11 @@ router.register('tint', apiViews.TintViewSet)
 router.register('tyre', apiViews.TyreViewSet)
 router.register('other-service', apiViews.OtherServiceViewSet)
 
+user_view = apiViews.GetUser.as_view({'post': 'post'})
+company_view = apiViews.GetCompany.as_view({'post': 'post'})
+
 urlpatterns = [
     path('', include(router.urls)),
+    path('get-user/', user_view, name='get-user'),
+    path('get-company/', company_view, name='get-company'),
 ]

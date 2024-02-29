@@ -12,8 +12,8 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(models.User_profile, UserAdmin)
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['id','name', 'phone', 'address', 'logo','description']
-    list_display_links = ['id', "name", 'phone', 'address']
+    list_display = ['id','name', 'admin','phone', 'address', 'logo','description']
+    list_display_links = ['id','admin', "name", 'phone', 'address']
 admin.site.register(models.Company, CompanyAdmin)
 
 class InvoiceAdmin(admin.ModelAdmin):
