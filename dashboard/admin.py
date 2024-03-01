@@ -17,8 +17,8 @@ class CompanyAdmin(admin.ModelAdmin):
 admin.site.register(models.Company, CompanyAdmin)
 
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'invoice_number', 'date', 'image', 'price', 'description', 'company', 'user']
-    list_display_links = ['id', "name", 'invoice_number', 'date']
+    list_display = ['id', 'name', 'invoice_number', 'supplier_number', 'date', 'image', 'price', 'description', 'company', 'user']
+    list_display_links = ['id', "name", 'invoice_number','supplier_number', 'date']
 admin.site.register(models.Invoice, InvoiceAdmin)
 
 class CustomersAdmin(admin.ModelAdmin):
