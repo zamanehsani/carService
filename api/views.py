@@ -59,15 +59,15 @@ class CustomersViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # must have the company_id, user_id 
         customer_obj = dashboard_models.Customers.objects.create(
-            name=request.data.get('name'),
-            phone = request.data.get('phone'),
+            name    = request.data.get('name'),
+            phone   = request.data.get('phone'),
             address = request.data.get('address'),
-            price = request.data.get('total'),
-            company_id = request.data.get('company_id'),
-            image = request.FILES.get('photo'),
+            price   = float(request.data.get('total')),
+            company_id  = int(request.data.get('company_id')),
             description = request.data.get('note'),
-            user_id = request.data.get('user_id'),
+            user_id     = int(request.data.get('user_id')),
         )
+        customer_obj.image = request.FILES.get('photo')
         customer_obj.save()
 
         if request.data.get('oilChangeService'):
@@ -139,16 +139,17 @@ class InvoicesViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # must have the company_id, user_id 
         obj = dashboard_models.Invoice.objects.create(
-            invoice_number=request.data.get('invoice_number'),
+            invoice_number  = request.data.get('invoice_number'),
             supplier_number = request.data.get('supplier_number'),
-            name = request.data.get('name'),
-            price = request.data.get('price'),
-            quantity = request.data.get('quantity'),
+            name    = request.data.get('name'),
+            price   = float(request.data.get('price')),
+            quantity    = request.data.get('quantity'),
             description = request.data.get('description'),
-            company_id = request.data.get('company_id'),
-            image = request.FILES.get('image'),
-            user_id = request.data.get('user_id'),
+            company_id  = int(request.data.get('company_id')),
+            user_id     = int(request.data.get('user_id')),
         )
+        # after the instance is created, save image to get the company instance and user instance.
+        obj.image = request.FILES.get('image')
         obj.save()
 
         return Response(status=status.HTTP_201_CREATED)

@@ -11,6 +11,7 @@ workspace/
 *.so
 
 media/
+media 
 /media/
 # Distribution / packaging
 .Python

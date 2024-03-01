@@ -76,11 +76,43 @@ class CompaniesSerializer(serializers.HyperlinkedModelSerializer):
 
 class CustomersSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
+
+    oilChangeService = serializers.SerializerMethodField(read_only=True)
+    batteryService = serializers.SerializerMethodField(read_only=True)
+    tintService = serializers.SerializerMethodField(read_only=True)
+    tyreService = serializers.SerializerMethodField(read_only=True)
+    otherService = serializers.SerializerMethodField()
     class Meta:
         model = dashboard_models.Customers
-        # fields = ['name', 'phone', 'address', 'description', 'price', 'image', 'date', 'company']
         fields = "__all__"
         depth = 1
+    
+    def get_oilChangeService(self, obj):
+        oiChange =  obj.oilchange_set.all()
+        serializer = OilChangeSer(oiChange, many=True)
+        return serializer.data
+    
+    def get_batteryService(self, obj):
+        batteries =  obj.battery_set.all()
+        serializer = BatterySer(batteries, many=True)
+        return serializer.data
+
+    def get_tintService(self, obj):
+        tint = obj.tint_set.all()
+        serializer = TintSer(tint, many=True)
+        return serializer.data
+    
+    def get_tyreService(self, obj):
+        tyres = obj.tyre_set.all()
+        serializer = TyreSer(tyres, many=True)
+        return serializer.data
+    
+    def get_otherService(self, obj):
+        other_services = obj.otherservice_set.all()
+        serializer = OtherServiceSer(other_services, many=True)
+        return serializer.data
+
+    
 
 class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
@@ -97,12 +129,26 @@ class OilChangeSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
         depth = 1
 
+class OilChangeSer(serializers.ModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.OilChange
+        fields = "__all__"
+
 class BatterySerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
         model = dashboard_models.Battery
         fields = "__all__"
         depth = 1
+
+
+class BatterySer(serializers.ModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Battery
+        fields = "__all__"
+
 
 class TintSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
@@ -111,6 +157,12 @@ class TintSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
         depth = 1
 
+class TintSer(serializers.ModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Tint
+        fields = "__all__"
+
 class TyreSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
@@ -118,9 +170,21 @@ class TyreSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
         depth = 1
 
+class TyreSer(serializers.ModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.Tyre
+        fields = "__all__"
+
 class OtherServiceSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
     class Meta:
         model = dashboard_models.OtherService
         fields = "__all__"
         depth = 1
+
+class OtherServiceSer(serializers.ModelSerializer):
+    id = serializers.IntegerField()  # Explicitly include the id field
+    class Meta:
+        model = dashboard_models.OtherService
+        fields = "__all__"

@@ -6,9 +6,9 @@ import os
 
 def customer_file_path(instance, filename):
     timestamp = timezone.now().strftime('%d%m%Y')
-    company = instance.company.id 
+    company = instance.company.name
     filename, ext = os.path.splitext(filename)  # Split the filename and extension
-    filename = f"{timestamp}-{instance.id}{ext}"  # Add the extension back to the filename
+    filename = f"{timestamp}-{instance.name}{ext}"  # Add the extension back to the filename
     return f"{company}/customers/{filename}"
 
 def profile_file_path(instance, filename):
@@ -20,16 +20,16 @@ def profile_file_path(instance, filename):
 
 def company_logo_path(instance, filename):
     timestamp = timezone.now().strftime('%d%m%Y')
-    company = instance.id
+    company = instance
     filename, ext = os.path.splitext(filename)
     filename = f"{timestamp}{ext}"
     return f"{company}/{filename}"
 
 def invoice_file_path(instance, filename):
     timestamp = timezone.now().strftime('%d%m%Y')
-    company = instance.company.id
+    company = instance.company.name
     filename, ext = os.path.splitext(filename)
-    filename = f"{timestamp}-{instance.id}{ext}"
+    filename = f"{timestamp}-{instance.name}{ext}"
     return f"{company}/{filename}"
 
 class Company(models.Model):
