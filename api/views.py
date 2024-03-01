@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.response import Response
 import json
 
-
 class CustomPagination(PageNumberPagination):
     """
     We are creating a custome pagination 
@@ -17,7 +16,6 @@ class CustomPagination(PageNumberPagination):
     page_size = 10  # Number of items per page
     page_size_query_param = 'page_size'  # Allows the client to override the page size
     max_page_size = 100  # Maximum page size to prevent abuse
-
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -35,13 +33,11 @@ class ContentTypeViewSet(viewsets.ModelViewSet):
     serializer_class = apiSerializers.ContentTypeSerializer()
     pagination_class = CustomPagination
     
-
 class UserPermissionViewSet(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.UserPermissionSerializer
     pagination_class = CustomPagination
-
 
 class UsersProfileViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.User_profile.objects.all()
@@ -134,13 +130,11 @@ class CustomersViewSet(viewsets.ModelViewSet):
                 other_obj.save()
         return Response(status=status.HTTP_201_CREATED)
     
-
 class InvoicesViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Invoice.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination
-
 
 class OilChangeViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OilChange.objects.all()
@@ -171,7 +165,6 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.OtherServiceSerializer
     pagination_class = CustomPagination
-
 
 # a view to get the user based on the username passed via post request
 class GetUser(viewsets.ViewSet):
