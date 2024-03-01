@@ -136,6 +136,25 @@ class InvoicesViewSet(viewsets.ModelViewSet):
     serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination
 
+    def create(self, request, *args, **kwargs):
+        # must have the company_id, user_id 
+        obj = dashboard_models.Invoice.objects.create(
+            invoice_number=request.data.get('invoice_number'),
+            supplier_number = request.data.get('supplier_number'),
+            name = request.data.get('name'),
+            price = request.data.get('price'),
+            quantity = request.data.get('quantity'),
+            description = request.data.get('description'),
+            company_id = request.data.get('company_id'),
+            image = request.FILES.get('image'),
+            user_id = request.data.get('user_id'),
+        )
+        obj.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+
+
 class OilChangeViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OilChange.objects.all()
     permission_classes = (AllowAny,)
