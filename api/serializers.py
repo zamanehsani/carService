@@ -36,13 +36,12 @@ class UserPermissionSerializer(serializers.HyperlinkedModelSerializer):
         return value
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True) 
     class Meta:
         model = User
         fields = "__all__"
         depth = 1
-        extra_kwargs = {
-            'password': {'write_only': True},
-        }
+        extra_kwargs = { 'password': {'write_only': True},}
 
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
