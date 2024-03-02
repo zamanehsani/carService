@@ -13,9 +13,18 @@ class CustomPagination(PageNumberPagination):
     """
     We are creating a custome pagination 
     to limit the query and more """
-    page_size = 10  # Number of items per page
+    page_size = 2  # Number of items per page
     page_size_query_param = 'page_size'  # Allows the client to override the page size
     max_page_size = 100  # Maximum page size to prevent abuse
+
+    def get_paginated_response(self, data):
+        return Response({
+            'total_pages': self.page.paginator.num_pages,
+            'count': self.page.paginator.count,
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'results': data
+        })
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -76,7 +85,9 @@ class CustomersViewSet(viewsets.ModelViewSet):
             address = request.data.get('address'),
             price   = float(request.data.get('total')),
             company_id  = int(request.data.get('company_id')),
-            description = request.data.get('note'),
+            car_plate_number = request.data.get('car_plate_number'),
+            car_model = request.data.get('car_model'),
+            car_plate_source = request.data.get('car_plate_source'),
             user_id     = int(request.data.get('user_id')),
         )
         customer_obj.image = request.FILES.get('photo')

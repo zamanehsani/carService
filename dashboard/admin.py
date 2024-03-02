@@ -22,8 +22,8 @@ class InvoiceAdmin(admin.ModelAdmin):
 admin.site.register(models.Invoice, InvoiceAdmin)
 
 class CustomersAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'phone', 'address', 'description', 'price', 'image', 'date']
-    list_display_links = ['id', "name", 'phone', 'address']
+    list_display = ['id', 'name', 'phone', 'car_model','car_plate_number','car_plate_source','address', 'description', 'price', 'image', 'date']
+    list_display_links = ['id', "name",'car_model','car_plate_number','car_plate_source', 'phone', 'address']
 admin.site.register(models.Customers, CustomersAdmin)
 
 class OilChangeAdmin(admin.ModelAdmin):

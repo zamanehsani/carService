@@ -69,6 +69,9 @@ class Customers(models.Model):
     date = models.DateField(auto_now_add=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank= True)
     user  = models.ForeignKey(User, null=True, blank = True, on_delete=models.SET_NULL)
+    car_model = models.CharField(max_length=100, null=True, blank=True)
+    car_plate_number = models.CharField(max_length=7, null=True, blank=True)
+    car_plate_source = models.CharField(max_length=20, null=True, blank=True)
 
     class Meta:
          verbose_name = 'Customer'
