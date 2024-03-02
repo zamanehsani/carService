@@ -41,7 +41,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = "__all__"
         depth = 1
-        extra_kwargs = { 'password': {'write_only': True},}
+        # extra_kwargs = { 'password': {'write_only': True},}
 
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
@@ -67,21 +67,29 @@ class UsersProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = [ 'profile', 'company', 'user']
         depth = 1
 
+# this is for other serializers
+class UserSer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['password','last_login', 'first_name', 'last_name','user_permissions','groups', 'date_joined']
+
 class CompaniesSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()  # Explicitly include the id field
+    admin = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Company
         fields = "__all__"
         depth = 1
 
-class CustomersSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
 
+class CustomersSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField()
     oilChangeService = serializers.SerializerMethodField(read_only=True)
     batteryService = serializers.SerializerMethodField(read_only=True)
     tintService = serializers.SerializerMethodField(read_only=True)
     tyreService = serializers.SerializerMethodField(read_only=True)
     otherService = serializers.SerializerMethodField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Customers
         fields = "__all__"
@@ -115,7 +123,8 @@ class CustomersSerializer(serializers.HyperlinkedModelSerializer):
     
 
 class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField() 
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Invoice
         fields = "__all__"
@@ -123,20 +132,23 @@ class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OilChangeSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.OilChange
         fields = "__all__"
         depth = 1
 
 class OilChangeSer(serializers.ModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField() 
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.OilChange
-        fields = "__all__"
-
+        fields ="__all__"
+      
 class BatterySerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Battery
         fields = "__all__"
@@ -144,47 +156,54 @@ class BatterySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BatterySer(serializers.ModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Battery
         fields = "__all__"
 
 
 class TintSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField() 
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Tint
         fields = "__all__"
         depth = 1
 
 class TintSer(serializers.ModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Tint
         fields = "__all__"
 
 class TyreSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Tyre
         fields = "__all__"
         depth = 1
 
 class TyreSer(serializers.ModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField()
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.Tyre
         fields = "__all__"
 
 class OtherServiceSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField() 
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.OtherService
         fields = "__all__"
         depth = 1
 
 class OtherServiceSer(serializers.ModelSerializer):
-    id = serializers.IntegerField()  # Explicitly include the id field
+    id = serializers.IntegerField() 
+    user = UserSer(read_only=True)
     class Meta:
         model = dashboard_models.OtherService
         fields = "__all__"
