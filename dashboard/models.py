@@ -87,6 +87,7 @@ class Invoice(models.Model):
     name    = models.CharField(max_length=200, null=True, blank=True)
     invoice_number  = models.CharField(max_length=200, null=True, blank=True)
     supplier_number = models.CharField(max_length=200, null=True, blank=True)
+    supplier_name = models.CharField(max_length=200, null=True, blank=True)
     quantity = models.PositiveIntegerField( null=True, blank=True)
     date    = models.DateField(auto_now_add=True)
     image   = models.ImageField(upload_to=invoice_file_path, null=True, blank=True)

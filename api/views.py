@@ -67,13 +67,10 @@ class CustomersViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        print("getting the filters: ")
         # Get the query parameter named 'filter_param' from the request
         company = self.request.query_params.get('company')
         if company:
-            print("company filters... ")
             queryset = queryset.filter(company__id=company)
-            print("counts of companies: ", queryset.count())
         return queryset
     
 
@@ -158,6 +155,15 @@ class InvoicesViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
+    
 
     def create(self, request, *args, **kwargs):
         # must have the company_id, user_id 
