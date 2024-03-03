@@ -35,17 +35,20 @@ class UserPermissionSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError('Permission already exists')
         return value
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = dashboard_models.User_profile
+        fields = '__all__'  # Include all fields from the Profile model
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True) 
+    user_profile = ProfileSerializer(read_only=True)
+
     class Meta:
         model = User
         fields = "__all__"
         depth = 1
-        # extra_kwargs = { 'password': {'write_only': True},}
-
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
-        return user
     
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)

@@ -232,6 +232,7 @@ class GetCompany(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
+        print("user company: ", username)
         try:
             company = dashboard_models.Company.objects.get(admin__username=username)
         except dashboard_models.Company.DoesNotExist:

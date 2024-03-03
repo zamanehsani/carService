@@ -48,9 +48,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -101,15 +101,22 @@ REST_FRAMEWORK = {
     ]
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',  # Example: React frontend URL
-    'https://localhost:3000',  # Example: React frontend URL
-    'http://192.168.70.162:3000',
-    'https://192.168.70.162:3000',
-    'https://127.0.0.1:3000',
-    'http://127.0.0.1:3000',
-]
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',  # Example: React frontend URL
+#     'http://localhost',  # Example: React frontend URL
+#     'https://localhost:3000',  # Example: React frontend URL
+#     'http://192.168.70.162:3000',
+#     'http://192.168.70.162',
+#     'https://192.168.70.162:3000',
+#     'https://192.168.70.162',
+#     'http://127.0.0.1:3000',
+#     'https://127.0.0.1:3000',
+# ]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
