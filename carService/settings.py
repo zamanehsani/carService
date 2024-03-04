@@ -38,13 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dashboard.apps.DashboardConfig',
+    'django.contrib.postgres',
     'rest_framework',
     'api.apps.ApiConfig',
-
     # this is for translation of jwt
     'rest_framework_simplejwt',
     'corsheaders',
-    
 ]
 
 MIDDLEWARE = [

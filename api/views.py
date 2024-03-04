@@ -8,6 +8,8 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework import status
 from rest_framework.response import Response
 import json
+from rest_framework import filters
+
 
 class CustomPagination(PageNumberPagination):
     """
@@ -59,11 +61,15 @@ class CompaniesViewSet(viewsets.ModelViewSet):
     serializer_class = apiSerializers.CompaniesSerializer
     pagination_class = CustomPagination
 
+
 class CustomersViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Customers.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.CustomersSerializer
     pagination_class = CustomPagination
+    # filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'phone', 'address', 'description','price','date','car_plate_number','car_plate_source','car_model']
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -155,6 +161,8 @@ class InvoicesViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.InvoicesSerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'invoice_number', 'quantity','supplier_name','supplier_number','date','price','description']
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -190,30 +198,42 @@ class OilChangeViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.OilChangeSerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['description','amount','date','currentMilage','oil']
+                     
 
 class BatteryViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Battery.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.BatterySerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name','description','maount','date','size','warrently']
+    
 
 class TintViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Tint.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.TintSerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['description','amount','date','tintedWindows','tintPercentage','tintType']
 
 class TyreViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Tyre.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.TyreSerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['description','amount','date','tyreType', 'tyreNumber', 'quantity']
 
 class OtherServiceViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OtherService.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.OtherServiceSerializer
     pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name','description','price','date']
 
 # a view to get the user based on the username passed via post request
 class GetUser(viewsets.ViewSet):
@@ -232,10 +252,11 @@ class GetCompany(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
-        print("user company: ", username)
         try:
             company = dashboard_models.Company.objects.get(admin__username=username)
         except dashboard_models.Company.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = apiSerializers.CompaniesSerializer(company,context={'request': request})
         return Response(serializer.data)
+
+
