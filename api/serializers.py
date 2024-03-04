@@ -134,9 +134,21 @@ class InvoicesSerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
 
 
+class CustomerSer(serializers.ModelSerializer):
+    class Meta:
+        model = dashboard_models.Customers
+        fields = "__all__"
+
+class CompanySer(serializers.ModelSerializer):
+    class Meta:
+        model = dashboard_models.Company
+        fields = "__all__"
+
 class OilChangeSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField()
     user = UserSer(read_only=True)
+    customer = CustomerSer(read_only=True)
+    company = CompanySer(read_only=True)
     class Meta:
         model = dashboard_models.OilChange
         fields = "__all__"

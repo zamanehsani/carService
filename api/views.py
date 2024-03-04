@@ -76,6 +76,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
         # Get the query parameter named 'filter_param' from the request
         company = self.request.query_params.get('company')
         if company:
+            print("company: ", company)
             queryset = queryset.filter(company__id=company)
         return queryset
     
@@ -200,7 +201,14 @@ class OilChangeViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['description','amount','date','currentMilage','oil']
-                     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
+    
 
 class BatteryViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Battery.objects.all()
@@ -209,6 +217,13 @@ class BatteryViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['name','description','amount','date','size','warrenty']
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
     
 
 class TintViewSet(viewsets.ModelViewSet):
@@ -218,14 +233,30 @@ class TintViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['description','amount','date','tintedWindows','tintPercentage','tintType']
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
 
 class TyreViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Tyre.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.TyreSerializer
     pagination_class = CustomPagination
+
     filter_backends = [filters.SearchFilter]
     search_fields = ['description','amount','date','tyreType', 'tyreNumber', 'quantity']
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
+    
 
 class OtherServiceViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OtherService.objects.all()
@@ -234,6 +265,14 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['name','description','amount','date']
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
+    
 
 # a view to get the user based on the username passed via post request
 class GetUser(viewsets.ViewSet):
