@@ -208,7 +208,7 @@ class BatteryViewSet(viewsets.ModelViewSet):
     serializer_class = apiSerializers.BatterySerializer
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name','description','maount','date','size','warrently']
+    search_fields = ['name','description','amount','date','size','warrenty']
     
 
 class TintViewSet(viewsets.ModelViewSet):
@@ -233,7 +233,7 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
     serializer_class = apiSerializers.OtherServiceSerializer
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name','description','price','date']
+    search_fields = ['name','description','amount','date']
 
 # a view to get the user based on the username passed via post request
 class GetUser(viewsets.ViewSet):
