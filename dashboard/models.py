@@ -91,7 +91,7 @@ class Invoice(models.Model):
     quantity = models.PositiveIntegerField( null=True, blank=True)
     date    = models.DateField(auto_now_add=True)
     image   = models.ImageField(upload_to=invoice_file_path, null=True, blank=True)
-    price   = models.DecimalField(max_digits=10, decimal_places=2)
+    price   = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     user    = models.ForeignKey(User,null=True, blank = True, on_delete=models.SET_NULL)
