@@ -10,7 +10,6 @@ from rest_framework.response import Response
 import json
 from rest_framework import filters
 
-
 class CustomPagination(PageNumberPagination):
     """
     We are creating a custome pagination 
@@ -193,7 +192,6 @@ class InvoicesViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_201_CREATED)
 
 
-
 class OilChangeViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OilChange.objects.all()
     permission_classes = (AllowAny,)
@@ -273,7 +271,6 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(company__id=company)
         return queryset
     
-
 # a view to get the user based on the username passed via post request
 class GetUser(viewsets.ViewSet):
     permission_classes = (AllowAny,)
@@ -297,5 +294,3 @@ class GetCompany(viewsets.ViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = apiSerializers.CompaniesSerializer(company,context={'request': request})
         return Response(serializer.data)
-
-
