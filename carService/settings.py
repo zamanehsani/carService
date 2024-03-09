@@ -91,6 +91,7 @@ WSGI_APPLICATION = 'carService.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 if(os.getenv("DEBUG")) == "True":
+    print("running with debug True.")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -98,6 +99,7 @@ if(os.getenv("DEBUG")) == "True":
         }
     }
 else:
+    print("running with main DB")
     DATABASES = {
         'default': {
             'ENGINE': os.getenv("DB_ENGINE"),
