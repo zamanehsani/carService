@@ -10,6 +10,8 @@ workspace/
 # C extensions
 *.so
 
+*.pem
+
 .env
 
 media/
