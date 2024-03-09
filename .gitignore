@@ -10,6 +10,8 @@ workspace/
 # C extensions
 *.so
 
+.env
+
 media/
 media 
 /media/
