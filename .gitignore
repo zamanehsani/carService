@@ -11,6 +11,7 @@ workspace/
 *.so
 
 *.pem
+note.txt
 
 .env
 
