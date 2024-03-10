@@ -177,7 +177,8 @@ class InvoicesViewSet(viewsets.ModelViewSet):
         # must have the company_id, user_id 
         obj = dashboard_models.Invoice.objects.create(
             invoice_number  = request.data.get('invoice_number'),
-            supplier_number = request.data.get('supplier_name'),
+            supplier_name = request.data.get('supplier_name'),
+            supplier_number = request.data.get('supplier_number'),
             name    = request.data.get('name'),
             price   = float(request.data.get('price')),
             quantity    = request.data.get('quantity'),
