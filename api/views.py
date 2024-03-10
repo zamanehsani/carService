@@ -85,6 +85,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
             name    = request.data.get('name'),
             phone   = request.data.get('phone'),
             address = request.data.get('address'),
+            description = request.data.get('description'),
             price   = float(request.data.get('total')),
             company_id  = int(request.data.get('company_id')),
             car_plate_number = request.data.get('car_plate_number'),
