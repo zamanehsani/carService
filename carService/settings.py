@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'rest_framework_simplejwt',
     'corsheaders',
-    'storages'
+    # 'storages'
 ]
 
 MIDDLEWARE = [
@@ -180,6 +180,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 MEDIA_URL = f'/media/'
+STATIC_URL = f'/static/'
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -198,6 +199,6 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.me-central-1.amazonaws.com'
 # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE= 'storages.backends.s3boto3.S3Boto3Storage'
+# STATIC_URL =  f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE= 'storages.backends.s3boto3.S3Boto3Storage'
