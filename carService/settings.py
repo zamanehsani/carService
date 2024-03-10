@@ -31,9 +31,13 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+if os.getenv('DEV') == 'dev':
+    DEBUG = True
+    print("Debug true")
+else:
+    DEBUG = False
+    print("Debug false")
 
-print("DEBUG:", DEBUG)
 ALLOWED_HOSTS = ['*']
 
 
@@ -91,7 +95,7 @@ WSGI_APPLICATION = 'carService.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if(os.getenv("DEBUG")) == "True":
+if DEBUG:
     print("running with debug True.")
     DATABASES = {
         'default': {
