@@ -288,11 +288,8 @@ class GetCompany(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
-        print("user: s:", username)
         try:
             u = User.objects.get(username=username)
-            print("user: ", u)
-            print("company: ", u.user_profile.company)
         except dashboard_models.Company.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = apiSerializers.CompaniesSerializer(u.user_profile.company,context={'request': request})
