@@ -75,7 +75,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
         # Get the query parameter named 'filter_param' from the request
         company = self.request.query_params.get('company')
         if company:
-            print("company: ", company)
             queryset = queryset.filter(company__id=company)
         return queryset
     
