@@ -24,5 +24,6 @@ company_view = apiViews.GetCompany.as_view({'post': 'post'})
 urlpatterns = [
     path('', include(router.urls)),
     path('get-user/', user_view, name='get-user'),
+    path('user-update/', apiViews.UserUpdateAPIView.as_view(), name='user-update'),
     path('get-company/', company_view, name='get-company'),
 ]

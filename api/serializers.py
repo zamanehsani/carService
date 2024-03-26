@@ -50,19 +50,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
         depth = 1
     
-    def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
-        instance.email = validated_data.get('email', instance.email)
-        instance.is_staff = validated_data.get('is_staff', instance.is_staff)
-        instance.set_password(validated_data.get('password', instance.password))
-        instance.save()
-        return instance
-    
-    def validate_email(self, value):
-        if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError('Email already exists')
-        return value
-    
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name','username']
+        extra_kwargs = {'password': {'write_only': True}}
 
 class UsersProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

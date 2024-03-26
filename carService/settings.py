@@ -33,10 +33,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('DEV') == 'dev':
     DEBUG = True
-    print("Debug true")
 else:
     DEBUG = False
-    print("Debug false")
 
 ALLOWED_HOSTS = ['*']
 
@@ -136,17 +134,17 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:3000',  # Example: React frontend URL
-#     'http://localhost',  # Example: React frontend URL
-#     'https://localhost:3000',  # Example: React frontend URL
-#     'http://192.168.70.162:3000',
-#     'http://192.168.70.162',
-#     'https://192.168.70.162:3000',
-#     'https://192.168.70.162',
-#     'http://127.0.0.1:3000',
-#     'https://127.0.0.1:3000',
-# ]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # Example: React frontend URL
+    'http://localhost',  # Example: React frontend URL
+    'https://localhost:3000',  # Example: React frontend URL
+    'http://192.168.70.162:3000',
+    'http://192.168.70.162',
+    'https://192.168.70.162:3000',
+    'https://192.168.70.162',
+    'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -203,20 +201,12 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME=os.getenv("AWS_S3_REGION_NAME")
 
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.me-central-1.amazonaws.com'
-print("access key: ", AWS_ACCESS_KEY_ID)
-print(" secret: ", AWS_SECRET_ACCESS_KEY)
-print("bucket name: ", AWS_STORAGE_BUCKET_NAME)
-print("Region: ", AWS_S3_REGION_NAME)
 
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 STATIC_URL =  f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE= 'storages.backends.s3boto3.S3Boto3Storage'
 
-print("Media url : ", MEDIA_URL)
-print("Static: ", STATIC_URL)
-print("Static storage: ", STATICFILES_STORAGE)
-print("Default file: ", DEFAULT_FILE_STORAGE)
 
 # Logging
 

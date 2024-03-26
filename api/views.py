@@ -9,6 +9,10 @@ from rest_framework import status
 from rest_framework.response import Response
 import json
 from rest_framework import filters
+from rest_framework.views import APIView
+
+
+
 
 class CustomPagination(PageNumberPagination):
     """
@@ -27,6 +31,7 @@ class CustomPagination(PageNumberPagination):
             'results': data
         })
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
@@ -34,8 +39,24 @@ class UserViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     
     def get_queryset(self):
-        queryset = dashboard_models.User.objects.all()
+        queryset = dashboard_models.User.objects.all().order_by('date_joined')
         return queryset
+
+class UserUpdateAPIView(APIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.UserUpdateSerializer
+
+    def put(self, request, *args, **kwargs):
+        user = dashboard_models.User.objects.get(pk = request.data.get("user_id"))
+        serializer = apiSerializers.UserUpdateSerializer(user, data=request.data)
+        if serializer.is_valid():
+            if request.FILES.get('photo'):
+                user.user_profile.profile = request.FILES.get('photo')
+                user.user_profile.save()
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ContentTypeViewSet(viewsets.ModelViewSet):
     queryset = ContentType.objects.all()
