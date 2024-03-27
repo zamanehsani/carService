@@ -25,5 +25,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('get-user/', user_view, name='get-user'),
     path('user-update/', apiViews.UserUpdateAPIView.as_view(), name='user-update'),
+    path('company-users/', apiViews.CompanyUsers.as_view({'get': 'list'}), name='company-users'),
     path('get-company/', company_view, name='get-company'),
 ]

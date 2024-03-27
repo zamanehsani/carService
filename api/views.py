@@ -75,6 +75,38 @@ class UsersProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.UsersProfileSerializer
 
+    def create(self, request, *args, **kwargs):
+        # must have the company_id, user_id 
+        username    = request.data.get("username")
+        first_name  = request.data.get("first_name")
+        last_name   = request.data.get("last_name")
+        email       = request.data.get("email")
+
+        user_obj = User.objects.create(
+            username    = username,
+            first_name  = first_name,
+            last_name   = last_name,
+            email       = email
+        )
+        user_obj.save()
+        user_obj.set_password(request.data.get('password'))
+        user_obj.save()
+
+        company_obj = dashboard_models.Company.objects.get(pk = request.data.get("company_id"))
+        if user_obj and company_obj:
+            obj = dashboard_models.User_profile.objects.create(
+                user = user_obj,
+                company= company_obj
+            )
+            obj.save()
+            # after the instance is created, save image to get the company instance and user instance.
+            if request.FILES.get('profile'):
+                obj.profile = request.FILES.get('profile')
+                obj.save()
+            return Response(status=status.HTTP_201_CREATED)
+        
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class CompaniesViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Company.objects.all()
     permission_classes = (AllowAny,)
@@ -285,6 +317,19 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['name','description','amount','date']
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Get the query parameter named 'filter_param' from the request
+        company = self.request.query_params.get('company')
+        if company:
+            queryset = queryset.filter(company__id=company)
+        return queryset
+    
+class CompanyUsers(viewsets.ModelViewSet):
+    queryset = dashboard_models.User_profile.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.UsersProfileSerializer
+    pagination_class = CustomPagination
     def get_queryset(self):
         queryset = super().get_queryset()
         # Get the query parameter named 'filter_param' from the request
