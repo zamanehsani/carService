@@ -59,7 +59,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class UsersProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = dashboard_models.User_profile
-        fields = [ 'profile', 'company', 'user']
+        fields = [ 'profile', 'company', 'user','id']
         depth = 1
 
 # this is for other serializers
