@@ -39,7 +39,7 @@ class UserViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     
     def get_queryset(self):
-        queryset = dashboard_models.User.objects.all().order_by('date_joined')
+        queryset = dashboard_models.User.objects.all().order_by('-date_joined')
         return queryset
 
 class UserUpdateAPIView(APIView):
@@ -326,7 +326,7 @@ class OtherServiceViewSet(viewsets.ModelViewSet):
         return queryset
     
 class CompanyUsers(viewsets.ModelViewSet):
-    queryset = dashboard_models.User_profile.objects.all()
+    queryset = dashboard_models.User_profile.objects.all().order_by('user')
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.UsersProfileSerializer
     pagination_class = CustomPagination
