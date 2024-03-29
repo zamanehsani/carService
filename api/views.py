@@ -12,8 +12,6 @@ from rest_framework import filters
 from rest_framework.views import APIView
 
 
-
-
 class CustomPagination(PageNumberPagination):
     """
     We are creating a custome pagination 
@@ -58,6 +56,22 @@ class UserUpdateAPIView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class UserResetPassword(APIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = apiSerializers.UserUpdateSerializer
+    
+    def post(self, request, *args, **kwargs):
+        user = dashboard_models.User.objects.get(pk = request.data.get("user_id"))
+        if user and request.data.get('password'):
+            if request.data.get('password') == request.data.get('passConfirm'):
+                user.set_password(request.data.get('password'))
+                user.save()
+                return Response({"status":"OK"}, status=status.HTTP_200_OK)
+            
+        return Response({"serializer"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ContentTypeViewSet(viewsets.ModelViewSet):
     queryset = ContentType.objects.all()
     permission_classes = (AllowAny,)
@@ -112,7 +126,6 @@ class CompaniesViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.CompaniesSerializer
     pagination_class = CustomPagination
-
 
 class CustomersViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Customers.objects.all()
@@ -245,7 +258,6 @@ class InvoicesViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_201_CREATED)
 
-
 class OilChangeViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OilChange.objects.all()
     permission_classes = (AllowAny,)
@@ -261,7 +273,6 @@ class OilChangeViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(company__id=company)
         return queryset
     
-
 class BatteryViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Battery.objects.all()
     permission_classes = (AllowAny,)
@@ -277,7 +288,6 @@ class BatteryViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(company__id=company)
         return queryset
     
-
 class TintViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.Tint.objects.all()
     permission_classes = (AllowAny,)
@@ -308,7 +318,6 @@ class TyreViewSet(viewsets.ModelViewSet):
         if company:
             queryset = queryset.filter(company__id=company)
         return queryset
-    
 
 class OtherServiceViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.OtherService.objects.all()
