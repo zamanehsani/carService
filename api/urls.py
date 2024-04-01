@@ -28,4 +28,5 @@ urlpatterns = [
     path('reset-password/', apiViews.UserResetPassword.as_view(), name='resetpassword'),
     path('company-users/', apiViews.CompanyUsers.as_view({'get': 'list'}), name='company-users'),
     path('get-company/', company_view, name='get-company'),
+    path('set-user-permission/', apiViews.setUserPermission, name='set-user-permission'),
 ]

@@ -82,7 +82,46 @@ class UserPermissionViewSet(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = apiSerializers.UserPermissionSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
+
+    def post(self, request, *args, **kwargs):
+        print("settting user permission....")
+        return Response()
+
+
+
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+@require_POST
+@csrf_exempt
+def setUserPermission(request):
+# Check if the request contains JSON data
+    if request.body:
+        try:
+            post_data = json.loads(request.body)
+            # Access the POST data
+            permission = post_data.get('codename')
+            status = post_data.get('status',False)
+            user = User.objects.get(username = post_data.get('user'))
+            permission = Permission.objects.get(codename=permission)
+            if user:
+                if status:
+                    user.user_permissions.add(permission)
+                    return JsonResponse({'status': status})
+                else:
+                    user.user_permissions.remove(permission)
+                    return JsonResponse({'status': status})
+
+            return JsonResponse({'status': "user not found"}, status=400)
+        except json.JSONDecodeError:
+            # Handle case where request body is not valid JSON
+            return JsonResponse({'message': 'Invalid JSON data in request body'}, status=400)
+    else:
+        # Handle case where no request body is received
+        return JsonResponse({'message': 'No request body received'}, status=400)
+
 
 class UsersProfileViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.User_profile.objects.all()
