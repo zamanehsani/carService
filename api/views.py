@@ -122,6 +122,94 @@ def setUserPermission(request):
         # Handle case where no request body is received
         return JsonResponse({'message': 'No request body received'}, status=400)
 
+@require_POST
+@csrf_exempt
+def ExpenseRange(request):
+# Check if the request contains JSON data
+    if request.body:
+        try:
+            post_data = json.loads(request.body)
+            dateRange = post_data.get('dateRange')
+            if dateRange:
+                dateRange = dateRange.split("to")
+                objects = dashboard_models.Invoice.objects.filter(date__range=[dateRange[0].strip(), dateRange[1].strip()])
+
+                # calculate the total expenses price in this range...
+                total_price = 0
+                for obj in objects:
+                    total_price += obj.price
+
+                # Return the total amount
+                return JsonResponse({"totalExpenses": total_price})
+        
+        except json.JSONDecodeError:
+            # Handle case where request body is not valid JSON
+            return JsonResponse({'message': 'something went wrong.'}, status=400)
+    else:
+        # Handle case where no request body is received
+        return JsonResponse({'message': 'No request body received'}, status=400)
+    
+@require_POST
+@csrf_exempt
+def SalesRange(request):
+# Check if the request contains JSON data
+    if request.body:
+        try:
+            post_data = json.loads(request.body)
+            dateRange = post_data.get('dateRange')
+            if dateRange:
+                dateRange = dateRange.split("to")
+                objects = dashboard_models.Customers.objects.filter(date__range=[dateRange[0].strip(), dateRange[1].strip()])
+
+                # calculate the total sales price in this range...
+                total_price = 0
+                for obj in objects:
+                    total_price += obj.price
+
+                # Return the total amount
+                return JsonResponse({"totalSales": total_price})
+        
+        except json.JSONDecodeError:
+            # Handle case where request body is not valid JSON
+            return JsonResponse({'message': 'something went wrong.'}, status=400)
+    else:
+        # Handle case where no request body is received
+        return JsonResponse({'message': 'No request body received'}, status=400)
+    
+
+@require_POST
+@csrf_exempt
+def getBalanceRange(request):
+# Check if the request contains JSON data
+    if request.body:
+        try:
+            post_data = json.loads(request.body)
+            dateRange = post_data.get('dateRange')
+            if dateRange:
+                dateRange = dateRange.split("to")
+                epxensesObjects = dashboard_models.Invoice.objects.filter(date__range=[dateRange[0].strip(), dateRange[1].strip()])
+                salesObjects = dashboard_models.Customers.objects.filter(date__range=[dateRange[0].strip(), dateRange[1].strip()])
+                
+                # get total expenes price
+                totalExpPrice = 0
+                for obj in epxensesObjects:
+                    totalExpPrice += obj.price
+
+                # calculate the total sales price in this range...
+                totalSalesPrice = 0
+                for obj in salesObjects:
+                    totalSalesPrice += obj.price
+
+                # Return the balance in this range
+                return JsonResponse({"balance": (totalSalesPrice - totalExpPrice)})
+        
+        except json.JSONDecodeError:
+            # Handle case where request body is not valid JSON
+            return JsonResponse({'message': 'something went wrong.'}, status=400)
+    else:
+        # Handle case where no request body is received
+        return JsonResponse({'message': 'No request body received'}, status=400)
+
 
 class UsersProfileViewSet(viewsets.ModelViewSet):
     queryset = dashboard_models.User_profile.objects.all()

@@ -29,4 +29,7 @@ urlpatterns = [
     path('company-users/', apiViews.CompanyUsers.as_view({'get': 'list'}), name='company-users'),
     path('get-company/', company_view, name='get-company'),
     path('set-user-permission/', apiViews.setUserPermission, name='set-user-permission'),
+    path('expense-range/', apiViews.ExpenseRange, name='expense-range'),
+    path('sales-range/', apiViews.SalesRange, name='sales-range'),
+    path('balance-range/', apiViews.getBalanceRange, name='balance-range'),
 ]
