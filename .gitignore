@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+database_backup.sql
+
 frontend/
 # vitualenviroment
 workspace/
